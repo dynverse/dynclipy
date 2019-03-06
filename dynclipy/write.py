@@ -1,12 +1,6 @@
 import rpy2.robjects as ro
 import rpy2.rinterface as rinterface
 
-from rpy2.robjects import pandas2ri
-pandas2ri.activate()
-
-from rpy2.robjects import numpy2ri
-numpy2ri.activate()
-
 def write_output(x, file, output_ids):
     assert isinstance(x, dict)
 

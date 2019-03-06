@@ -1,12 +1,9 @@
 import rpy2.robjects as ro
 import rpy2.rinterface as rinterface
 
-from rpy2.robjects import pandas2ri
-pandas2ri.activate()
+import sys
 
 from scipy.sparse import csr_matrix
-
-import sys
 
 @ro.conversion.rpy2py.register(rinterface.SexpS4)
 def convert_sparse(obj):
@@ -17,12 +14,8 @@ def convert_sparse(obj):
         
         return csr_matrix((x, i, p))
 
-
 @ro.conversion.rpy2py.register(rinterface.ListSexpVector)
 def convert_list(obj):
-    global x
-    x = obj
-
     # check if a non-empty list
     if not isinstance(obj, rinterface.NULLType) and len(obj) > 0:
         # check if named list
