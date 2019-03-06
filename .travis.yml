@@ -20,9 +20,10 @@ install:
  - # use_dynverse_devel
  - install_cran devtools
  - R -e 'devtools::install_github("dynverse/dyncli", dep = TRUE)'
- - pip install . --user
+ - wget -qO- https://bootstrap.pypa.io/get-pip.py | python3
+ - pip3 install . --user
 script:
-  - python setup.py test
+  - python3 setup.py test
 jobs:
   include:
     - stage: prepare hdf5
