@@ -2,7 +2,6 @@ language: r
 dist: trusty
 bioc_required: true
 warnings_are_errors: true
-python: 3.6
 cache:
   directories:
     - $HOME/.cache/hdf5
@@ -17,13 +16,14 @@ before_install:
   - source <(curl -sSL https://raw.githubusercontent.com/dynverse/travis_scripts/master/helper.sh)
   - install_hdf5
 install:
+ - apt-get install -y python3.6
+ - wget -qO- https://bootstrap.pypa.io/get-pip.py | python3.6 --user
+ - pip3 install . --user
  - # use_dynverse_devel
  - install_cran devtools
  - R -e 'devtools::install_github("dynverse/dyncli", dep = TRUE)'
- - wget -qO- https://bootstrap.pypa.io/get-pip.py | python3
- - pip3 install . --user
 script:
-  - python3 setup.py test
+  - python3.6 setup.py test
 jobs:
   include:
     - stage: prepare hdf5
