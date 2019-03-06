@@ -1,29 +1,25 @@
-language: r
-dist: trusty
-bioc_required: true
-warnings_are_errors: true
+language: python
+python:
+- "3.6"
 cache:
   directories:
     - $HOME/.cache/hdf5
     - $HOME/R/Library
+    - $HOME/.pip
 services:
   - docker
-addons:
-  apt:
-    packages:
-      - libssh-dev  # PRISM > ssh > libssh-dev
 before_install:
   - source <(curl -sSL https://raw.githubusercontent.com/dynverse/travis_scripts/master/helper.sh)
   - install_hdf5
 install:
- - apt-get install -y python3.6
- - wget -qO- https://bootstrap.pypa.io/get-pip.py | python3.6 --user
- - pip3 install . --user
  - # use_dynverse_devel
+ - sudo apt-get install -y r-base r-devel
+ - R -e 'source("https://bioconductor.org/biocLite.R")'
  - install_cran devtools
- - R -e 'devtools::install_github("dynverse/dyncli", dep = TRUE)'
+ - install_github_withdeps dynverse/dyncli
+ - pip install . --user
 script:
-  - python3.6 setup.py test
+  - python setup.py test
 jobs:
   include:
     - stage: prepare hdf5
