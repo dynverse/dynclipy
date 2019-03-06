@@ -5,6 +5,7 @@ import sys
 
 from scipy.sparse import csr_matrix
 import numpy as np
+import pandas as pd
 
 @ro.conversion.rpy2py.register(rinterface.SexpS4)
 def convert_sparse(obj):
@@ -12,8 +13,13 @@ def convert_sparse(obj):
         x = obj.do_slot("x")
         p = obj.do_slot("p")
         i = obj.do_slot("i")
+
+        csr = csr_matrix((x, i, p))
+
+        index = ro.r["rownames"](obj)
+        columns = ro.r["colnames"](obj)
         
-        return csr_matrix((x, i, p))
+        return pd.SparseDataFrame(csr, index = columns, columns = index)
 
 @ro.conversion.rpy2py.register(rinterface.ListSexpVector)
 def convert_list(obj):
