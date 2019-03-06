@@ -4,6 +4,7 @@ import rpy2.rinterface as rinterface
 import sys
 
 from scipy.sparse import csr_matrix
+import numpy as np
 
 @ro.conversion.rpy2py.register(rinterface.SexpS4)
 def convert_sparse(obj):
@@ -92,5 +93,8 @@ def main(
             definition_location = definition_location
     )
     """)
+
+    if "seed" in task:
+        np.random.seed(np.abs(task["seed"]))
 
     return task
