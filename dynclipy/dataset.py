@@ -14,9 +14,12 @@ class Dataset():
     def call_function_add(self, function, *args, **kwargs):
         call_function(self.id, function, True, *args, **kwargs)
 
+    def write_output(self, file):
+        ro.r(f"dynwrap::write_output({id}, '{file}')")
+
 def add_adder(cls, function):
     def adder(self, *args, **kwargs):
-        self.call_function_add(function, *args, **kwargs)
+        self.call_function_add(self.id, function, True, *args, **kwargs)
         return self
     setattr(cls, function, adder)
 

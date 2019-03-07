@@ -21,7 +21,7 @@ before_install:
 install:
  - # use_dynverse_devel
  - install_github_withdeps dynverse/dyncli
- - pip install . --user
+ - pip install .
 script:
   - python setup.py test
 jobs:
