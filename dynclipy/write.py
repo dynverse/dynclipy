@@ -31,14 +31,3 @@ def convert_dict(obj):
         return ro.FloatVector(obj)
 
     return ro.ListVector(obj)
-
-
-@ro.conversion.py2rpy.register(pd.DataFrame)
-def convert_dataframe(obj):
-    df = pandas2ri.py2rpy_pandasdataframe(obj)
-
-    # set rownames to NULL if pandas does not have a custom index
-    if isinstance(obj.index, pd.core.indexes.range.RangeIndex):
-        ro.r("rownames")(df) <- ro.r("NULL")
-
-    return df
