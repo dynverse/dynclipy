@@ -23,7 +23,7 @@ def convert_dict(obj):
 def convert_dict(obj):
     if all([isinstance(x, str) for x in obj]):
         return ro.StrVector(obj)
-    elif all([isinstance(x, int) for x in obj]):
+    elif all([isinstance(x, int) | isinstance(x, float) for x in obj]):
         return ro.IntVector(obj)
     elif all([isinstance(x, bool) for x in obj]):
         return ro.BoolVector(obj)

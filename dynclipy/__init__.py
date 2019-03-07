@@ -8,3 +8,4 @@ numpy2ri.activate()
 
 from .read import check_conversion_rpy2py, main
 from .write import write_output
+from .dataset import *
