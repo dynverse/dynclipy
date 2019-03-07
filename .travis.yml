@@ -11,7 +11,7 @@ services:
 before_install:
   - export R_LIBS_USER=$HOME/R/Library
   - source <(curl -sSL https://raw.githubusercontent.com/dynverse/travis_scripts/master/helper.sh)
-  - echo "deb https://cloud.r-project.org/bin/linux/ubuntu trusty-cran35" >> /etc/apt/sources.list
+  - echo "deb https://cloud.r-project.org/bin/linux/ubuntu/trusty-cran35" >> /etc/apt/sources.list
   - sudo apt-get install -y r-base r-base-dev
   - install_cran devtools
   - install_cran BiocManager
