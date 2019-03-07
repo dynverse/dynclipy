@@ -9,6 +9,7 @@ cache:
 services:
   - docker
 before_install:
+  - export R_LIBS_USER=$HOME/R/Library
   - source <(curl -sSL https://raw.githubusercontent.com/dynverse/travis_scripts/master/helper.sh)
   - sudo apt-get install -y r-base
   - install_cran devtools
