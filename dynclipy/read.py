@@ -1,6 +1,8 @@
 import rpy2.robjects as ro
 import rpy2.rinterface as rinterface
 
+from rpy2.robjects import pandas2ri
+
 import sys
 
 from scipy.sparse import csr_matrix
@@ -9,11 +11,12 @@ import pandas as pd
 
 @ro.conversion.rpy2py.register(rinterface.SexpS4)
 def convert_sparse(obj):
-    if "dgCMatrix" in obj.rclass[0]:
+    print(obj)
+    if "dgCMatrix" in obj.rclass:
         x = obj.do_slot("x")
         p = obj.do_slot("p")
         i = obj.do_slot("i")
-        
+
         csr = csr_matrix((x, i, p))
         
         index = ro.r["rownames"](obj)
@@ -27,13 +30,19 @@ def convert_list(obj):
     if not isinstance(obj, rinterface.NULLType) and len(obj) > 0:
         # check if named list
         if not isinstance(obj.names, rinterface.NULLType) and len(obj) == len(obj.names):
-                return {
+                x = {
                         name:ro.conversion.rpy2py(obj[i]) for i, name in enumerate(obj.names)
                 }
         else:
-                return [
+                x = [
                         ro.conversion.rpy2py(obj[i]) for i in range(len(obj))
                 ]
+        
+        # check if dataframe
+        if "data.frame" in obj.rclass:
+            x = pandas2ri.rpy2py_dataframe(ro.vectors.DataFrame(obj))
+
+        return x
     else:
         return {}
 
