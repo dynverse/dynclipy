@@ -7,19 +7,16 @@ class Dataset():
     id = None
     def __init__(self, id):
         self.id = id
-
-    def call_function(self, function, *args, **kwargs):
-        call_function(self.id, function, False, *args, **kwargs)
     
     def call_function_add(self, function, *args, **kwargs):
         call_function(self.id, function, True, *args, **kwargs)
 
     def write_output(self, file):
-        ro.r(f"dynwrap::write_output({id}, '{file}')")
+        ro.r(f"dyncli::write_output({self.id}, '{file}')")
 
 def add_adder(cls, function):
     def adder(self, *args, **kwargs):
-        self.call_function_add(self.id, function, True, *args, **kwargs)
+        self.call_function_add(function, *args, **kwargs)
         return self
     setattr(cls, function, adder)
 
@@ -28,7 +25,7 @@ for output in ro.r("dynwrap::allowed_outputs$output_id"):
     add_adder(Dataset, "add_" + output)
 
 # call a function in R, without returning the object in python
-def call_function(id, function, add = False, *args, **kwargs):
+def call_function(id, function, add, *args, **kwargs):
     ro.globalenv["args"] = ro.ListVector([["wazzup", x] for x in args])
     ro.globalenv["kwargs"] = ro.ListVector([[name, x] for name, x in kwargs.items()])
 
@@ -46,13 +43,13 @@ def call_function(id, function, add = False, *args, **kwargs):
 # create a Dataset() based on data
 def wrap_data(*args, **kwargs):
     id = random_id()
-    call_function(id, "wrap_data", add = False, *args, **kwargs)
+    call_function(id, "wrap_data", False, *args, **kwargs)
     return Dataset(id)
 
 # create 
 def wrap_expression(*args, **kwargs):
     id = random_id()
-    call_function(id, "wrap_expression", add = False, *args, **kwargs)
+    call_function(id, "wrap_expression", False, *args, **kwargs)
     return Dataset(id)
 
 def random_id():
