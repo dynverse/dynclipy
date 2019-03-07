@@ -13,7 +13,7 @@ before_install:
   - source <(curl -sSL https://raw.githubusercontent.com/dynverse/travis_scripts/master/helper.sh)
   - sudo add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu trusty-cran35/'
   - sudo apt-get update
-  - sudo apt-get install -y r-base r-base-dev
+  - sudo apt-get install -y --allow-unauthenticated r-base r-base-dev
   - install_cran devtools
   - install_cran BiocManager
   - R -e 'BiocManager::install()'
