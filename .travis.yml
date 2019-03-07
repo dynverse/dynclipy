@@ -11,8 +11,11 @@ services:
 before_install:
   - source <(curl -sSL https://raw.githubusercontent.com/dynverse/travis_scripts/master/helper.sh)
   - sudo apt-get install -y r-base
-  - R -e 'source("https://bioconductor.org/biocLite.R")'
+  - R -e '    install.packages("BiocManager")
+BiocManager::install()'
   - install_cran devtools
+  - install_cran BiocManager
+  - R -e 'BiocManager::install()'
   - install_hdf5
 install:
  - # use_dynverse_devel
