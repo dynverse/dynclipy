@@ -11,7 +11,6 @@ import pandas as pd
 
 @ro.conversion.rpy2py.register(rinterface.SexpS4)
 def convert_sparse(obj):
-    print(obj)
     if "dgCMatrix" in obj.rclass:
         x = obj.do_slot("x")
         p = obj.do_slot("p")
@@ -22,7 +21,13 @@ def convert_sparse(obj):
         index = ro.r["rownames"](obj)
         columns = ro.r["colnames"](obj)
         
+        if isinstance(index, rinterface.NULLType):
+            index = None
+        if isinstance(columns, rinterface.NULLType):
+            columns = None
+        
         return pd.SparseDataFrame(csr.transpose(), index = index, columns = columns, default_fill_value = 0)
+    return obj
 
 @ro.conversion.rpy2py.register(rinterface.ListSexpVector)
 def convert_list(obj):
