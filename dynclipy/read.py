@@ -13,15 +13,13 @@ def convert_sparse(obj):
         x = obj.do_slot("x")
         p = obj.do_slot("p")
         i = obj.do_slot("i")
-
+        
         csr = csr_matrix((x, i, p))
-
+        
         index = ro.r["rownames"](obj)
         columns = ro.r["colnames"](obj)
-
-        csr.transpose()
         
-        return pd.SparseDataFrame(csr, index = index, columns = columns, default_fill_value = 0)
+        return pd.SparseDataFrame(csr.transpose(), index = index, columns = columns, default_fill_value = 0)
 
 @ro.conversion.rpy2py.register(rinterface.ListSexpVector)
 def convert_list(obj):
