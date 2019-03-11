@@ -115,8 +115,8 @@ def main(
     )
     """)
 
-    if "seed" in task:
-        np.random.seed(np.abs(task["seed"]))
-        random.seed(a = np.abs(task["seed"]))
+    if "seed" in task and task["seed"] > 0:
+        np.random.seed(task["seed"])
+        random.seed(a = task["seed"])
 
     return task
