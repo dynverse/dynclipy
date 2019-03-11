@@ -8,6 +8,7 @@ import sys
 from scipy.sparse import csr_matrix
 import numpy as np
 import pandas as pd
+import random
 
 @ro.conversion.rpy2py.register(rinterface.SexpS4)
 def convert_sparse(obj):
@@ -116,5 +117,6 @@ def main(
 
     if "seed" in task:
         np.random.seed(np.abs(task["seed"]))
+        random.seed(a = np.abs(task["seed"]))
 
     return task
