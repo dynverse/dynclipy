@@ -123,11 +123,10 @@ def main(
     """)
 
     if "seed" in task and task["seed"] > 0:
-        np.random.seed(task["seed"])
-        random.seed(a = task["seed"])
+        np.random.seed(int(task["seed"]))
+        random.seed(a = int(task["seed"]))
 
     if debug:
         from IPython import embed; embed()
-
-
+    
     return task
