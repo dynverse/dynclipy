@@ -14,7 +14,8 @@ setup(
         "scipy",
         "numpy",
         "pandas",
-        "tzlocal" # necessary for pandas2ri
+        "tzlocal", # necessary for pandas2ri
+        "ipython"
     ],
     zip_safe=False,
     test_suite='nose.collector',

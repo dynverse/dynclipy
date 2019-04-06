@@ -105,6 +105,13 @@ def main(
     args = sys.argv[1:],
     definition_location = "/code/definition.yml"
 ):
+    # if debug, remove from args so that R doesn't do anything
+    if "--debug" in args:
+        args.remove("--debug")
+        debug = True
+    else:
+        debug = False
+    
     ro.globalenv["args"] = ro.StrVector(args)
     ro.globalenv["definition_location"] = ro.StrVector([definition_location])
 
@@ -118,5 +125,9 @@ def main(
     if "seed" in task and task["seed"] > 0:
         np.random.seed(task["seed"])
         random.seed(a = task["seed"])
+
+    if debug:
+        from IPython import embed; embed()
+
 
     return task
