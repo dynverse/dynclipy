@@ -127,6 +127,7 @@ def main(
         random.seed(a = int(task["seed"]))
 
     if debug:
-        from IPython import embed; embed()
+        print(f"dynclipy.main('", "','".join(args), "')")
+        raise SystemExit
     
     return task
