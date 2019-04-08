@@ -108,9 +108,8 @@ def main(
     # if debug, remove from args so that R doesn't do anything
     if "--debug" in args:
         args.remove("--debug")
-        debug = True
-    else:
-        debug = False
+        print(f"dynclipy.main('", "','".join(args), "')")
+        raise SystemExit
     
     ro.globalenv["args"] = ro.StrVector(args)
     ro.globalenv["definition_location"] = ro.StrVector([definition_location])
@@ -125,9 +124,5 @@ def main(
     if "seed" in task and task["seed"] > 0:
         np.random.seed(int(task["seed"]))
         random.seed(a = int(task["seed"]))
-
-    if debug:
-        print(f"dynclipy.main('", "','".join(args), "')")
-        raise SystemExit
     
     return task
