@@ -16,8 +16,9 @@ def convert_sparse(obj):
         x = obj.do_slot("x")
         p = obj.do_slot("p")
         i = obj.do_slot("i")
+        dim = obj.do_slot("Dim")
 
-        csr = csr_matrix((x, i, p))
+        csr = csr_matrix((x, i, p), shape = dim[::-1])
         
         index = ro.r["rownames"](obj)
         columns = ro.r["colnames"](obj)
@@ -27,7 +28,7 @@ def convert_sparse(obj):
         if isinstance(columns, rinterface.NULLType):
             columns = None
         
-        return pd.SparseDataFrame(csr.transpose(), index = index, columns = columns, default_fill_value = 0)
+        return pd.DataFrame.sparse.from_spmatrix(csr.transpose(), index = index, columns = columns)
     return obj
 
 @ro.conversion.rpy2py.register(rinterface.ListSexpVector)

@@ -13,7 +13,7 @@ setup(
         "rpy2",
         "scipy",
         "numpy",
-        "pandas",
+        "pandas>=1.0",
         "tzlocal", # necessary for pandas2ri
         "ipython"
     ],
